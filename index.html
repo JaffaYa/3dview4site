@@ -12,7 +12,12 @@
 </head>
 <body>
 	<script type="text/javascript" src="three.js"></script>
+
 	<script type="text/javascript" src="GLTFLoader.js"></script>
+
+	<script type="text/javascript" src="fflate.min.js"></script>
+	<script type="text/javascript" src="FBXLoader.js"></script>
+
 	<script type="text/javascript" src="OrbitControls.js"></script>
 	<script type="text/javascript">
 		let scene, camera, renderer;
@@ -35,20 +40,25 @@
 
 
 			const grid = new THREE.GridHelper( 500, 100, 0x000000, 0x000000 );
-			grid.position.y = - 5;
+			grid.position.y = -5;
 			grid.material.opacity = 0.2;
 			grid.material.transparent = true;
 			scene.add( grid );
 
-			hlight = new THREE.AmbientLight(0x404040, 50);
+			hlight = new THREE.AmbientLight(0x404040, 1);
 			scene.add(hlight);
+
+			const pointLight = new THREE.PointLight( 0xffffff, 5 );
+			scene.add( camera );
+			camera.add( pointLight );
 
 			// directionalLight = new THREE.DirectionalLight( 0xffffff, 50 );
 			// directionalLight.position.set(0,1,0);
 			// directionalLight.castShadow = true;
 			// scene.add(directionalLight);
 
-			renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
+			// renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
+			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setClearColor(0x000000, 0);
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
@@ -65,6 +75,36 @@
 				scene.add(gftl.scene);
 				animate();
 			});
+
+			let loader1 = new THREE.GLTFLoader();
+			loader1.load('models/bag2/gltf/scene.gltf', function(gftl){
+				// console.dir(gftl);
+				let sc = 0.0005;
+				let bag = gftl.scene.children[0];
+				// bag.scale.set(0.02,0.02,0.02);
+				bag.scale.set(sc,sc,sc);
+				bag.rotateZ( 3 );
+				bag.position.set( 0, -0.7, -0.4 );
+				// bag.rotateOnAxis ( new THREE.Vector3( 0,0,1), 190 );
+				// console.dir( bag.rotation );
+				// scene.add(gftl.scene.children[0]);
+				scene.add(bag);
+				// animate();
+			});
+
+			// model
+			// const loader2 = new THREE.FBXLoader();
+			// loader2.load( 'models/bag2/fbx/source/POUCH_FGP_V05.fbx', function ( object ) {
+
+			// 	let sc = 0.0005;
+			// 	let bag = object;
+			// 	bag.scale.set(sc,sc,sc);
+			// 	bag.rotateZ( 3 );
+			// 	bag.position.set( 0, -0.7, -0.4 );
+
+			// 	scene.add( bag );
+
+			// } );
 		}
 
 		function animate() {
