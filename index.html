@@ -47,17 +47,20 @@
 			grid.material.transparent = true;
 			scene.add( grid );
 
-			hlight = new THREE.AmbientLight(0x404040, 1);
+			// hlight = new THREE.AmbientLight(0x404040, 10);
+			hlight = new THREE.AmbientLight(0x404040, 3);
 			scene.add(hlight);
 
-			const pointLight = new THREE.PointLight( 0xffffff, 2 );
+			const pointLight = new THREE.PointLight( 0xffffff, 1 );
 			scene.add( camera );
 			camera.add( pointLight );
 
-			// directionalLight = new THREE.DirectionalLight( 0xffffff, 50 );
-			// directionalLight.position.set(0,1,0);
+			// directionalLight = new THREE.DirectionalLight( 0xffffff, 2 );
+			// directionalLight.position.set(0,10,0);
 			// directionalLight.castShadow = true;
 			// scene.add(directionalLight);
+			// const helper = new THREE.DirectionalLightHelper( directionalLight, 5 );
+			// scene.add( helper );
 
 			// stats
 			stats = new Stats();
@@ -77,13 +80,14 @@
 			controls.minDistance = 1;
 			controls.maxDistance = 8;
 
-			// let loader = new THREE.GLTFLoader();
+			let loader = new THREE.GLTFLoader();
 			// loader.load('models/scene.gltf', function(gftl){
-			// 	// bag = gftl.scene.children[0];
-			// 	// bag.scale.set(0.5,0.5,0.5);
-			// 	scene.add(gftl.scene);
-			// 	animate();
-			// });
+			loader.load('Dime/test.glb', function(gftl){
+				// bag = gftl.scene.children[0];
+				// bag.scale.set(0.5,0.5,0.5);
+				scene.add(gftl.scene);
+				animate();
+			});
 
 			// let loader1 = new THREE.GLTFLoader();
 			// loader1.load('models/bag2/gltf/scene.gltf', function(gftl){
@@ -102,19 +106,25 @@
 			// });
 
 			// model
-			const loader2 = new THREE.FBXLoader();
-			loader2.load( 'Dime/sumka.FBX', function ( object ) {
+			// const loader2 = new THREE.FBXLoader();
+			// loader2.load( 'Dime/sumka.FBX', function ( object ) {
 
-				let sc = 0.002;
-				let bag = object;
-				bag.scale.set(sc,sc,sc);
-				bag.rotateX( -1.55 );
-				// bag.position.set( 0, -0.7, -0.4 );
+			// 	let sc = 0.002;
+			// 	let bag = object;
+			// 	bag.scale.set(sc,sc,sc);
+			// 	// bag.rotateX( -1.55 );
+			// 	// console.log(-90 * Math.PI/180);
+			// 	bag.rotateX( angl2rad(-90) );
+			// 	// bag.position.set( 0, -0.7, -0.4 );
 
-				scene.add( bag );
-				animate();
+			// 	scene.add( bag );
+			// 	animate();
 
-			} );
+			// } );
+		}
+
+		function angl2rad(angl) {
+			return angl * Math.PI/180;
 		}
 
 		function animate() {
